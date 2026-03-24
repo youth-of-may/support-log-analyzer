@@ -23,7 +23,7 @@ def build_pipeline() -> Pipeline:
     return pipe
 
 
-def train(df: pd.DataFrame, description: str = "Ticket Description", category: str = "Ticket Type"):
+def train(df: pd.DataFrame, description: str = "Document", category: str = "Topic_group"):
     X = df[description]
     Y = df[category]
     X_train, X_test, Y_train, y_test = train_test_split(X, Y, test_size=0.3, random_state=42)
@@ -48,5 +48,7 @@ def predict(texts: list) -> list:
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(PROCESSED_DIR / "tickets_cleaned.csv")
+    df = pd.read_csv(PROCESSED_DIR / "service_tickets.csv")
     train(df)
+    texts= ["my computer is running out of juice. i can't download files anymore"]
+    print(predict(texts))
