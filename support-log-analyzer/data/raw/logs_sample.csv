@@ -1,0 +1,31 @@
+ticket_id,created_at,category,priority,description,resolution_time_hrs
+T001,2024-01-03,billing,high,user cannot access invoice after payment,4.5
+T002,2024-01-04,login,medium,forgot password reset link not arriving,2.1
+T003,2024-01-05,bug,high,500 error on checkout page when using visa,28.3
+T004,2024-01-06,billing,low,request for refund on duplicate charge,12.0
+T005,2024-01-08,feature_request,low,would like dark mode on mobile app,0.5
+T006,2024-01-09,login,high,account locked after 3 failed attempts,1.8
+T007,2024-01-10,bug,high,app crashes on android 14 when uploading file,36.0
+T008,2024-01-11,billing,medium,subscription not cancelled after request,18.5
+T009,2024-01-12,feature_request,low,export to pdf not working for old reports,3.2
+T010,2024-01-14,login,medium,sso integration failing for google workspace,9.0
+T011,2024-02-01,bug,high,data export missing last 30 days of records,48.0
+T012,2024-02-03,billing,high,charged twice for annual plan,6.5
+T013,2024-02-04,login,low,profile picture not updating,1.0
+T014,2024-02-06,feature_request,low,add bulk delete for old tickets,0.8
+T015,2024-02-07,bug,medium,notifications not clearing after reading,14.2
+T016,2024-02-10,billing,medium,promo code not applied at checkout,3.8
+T017,2024-02-12,login,high,two factor auth code not accepted,2.5
+T018,2024-02-14,bug,high,search returns wrong results for date filter,22.1
+T019,2024-02-15,feature_request,low,calendar integration with google calendar,1.2
+T020,2024-02-18,billing,high,payment failed but amount still deducted,8.9
+T021,2024-03-01,bug,high,mobile app freezes on ios 17 during sync,31.0
+T022,2024-03-03,billing,medium,incorrect tax calculation on invoice,7.2
+T023,2024-03-05,login,high,oauth token expired not refreshing automatically,5.5
+T024,2024-03-07,feature_request,low,support for multi-currency billing,1.0
+T025,2024-03-09,bug,high,file upload fails for files over 10mb,19.8
+T026,2024-03-11,billing,high,annual plan not downgraded after cancellation,14.3
+T027,2024-03-12,login,medium,session timeout too aggressive on mobile,3.1
+T028,2024-03-14,bug,medium,email notification contains broken links,8.0
+T029,2024-03-15,feature_request,low,add csv export for all reports,0.5
+T030,2024-03-18,billing,high,credit card charge failed but no error shown,6.1
