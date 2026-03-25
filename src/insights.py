@@ -4,37 +4,26 @@ These feed directly into the Streamlit dashboard.
 """
 import pandas as pd
 
+# metrics
 
-def volume_over_time(df: pd.DataFrame) -> pd.DataFrame:
-    return df.groupby("month").size().reset_index(name="ticket_count")
+def total_tickets(df: pd.DataFrame):
+    return df['Document'].count()
 
+def unique_topics(df: pd.DataFrame):
+    return df['Topic_groups'].value_counts().count()
 
-def category_breakdown(df: pd.DataFrame) -> pd.DataFrame:
-    counts = df["category"].value_counts().reset_index()
-    counts.columns = ["category", "count"]
-    return counts
+def most_common_group(df: pd.DataFrame):
+    return df['Topic_groups'].value_counts().iloc[0]
 
+def average_document_length(df: pd.DataFrame):
+    return df['Document'].transform(lambda x: len(x)).mean()
 
-def avg_resolution_by_category(df: pd.DataFrame) -> pd.DataFrame:
-    return (
-        df.groupby("category")["resolution_time_hrs"]
-        .mean()
-        .round(1)
-        .reset_index()
-        .sort_values("resolution_time_hrs", ascending=False)
-    )
+def topic_distribution(df: pd.DataFrame):
+    return df['Topic_groups'].value_counts().reset_index()
 
+def char_length_distribution(df: pd.DataFrame):
+    return df.groupby('Topic_group')['char_length'].sum().reset_index()
 
-def priority_distribution(df: pd.DataFrame) -> pd.DataFrame:
-    counts = df["priority"].value_counts().reset_index()
-    counts.columns = ["priority", "count"]
-    return counts
+def word_length_distribution(df: pd.DataFrame):
+    return df.groupby('Topic_group')['word_length'].sum().reset_index()
 
-
-def flag_slow_tickets(df: pd.DataFrame, threshold_hrs: float = 24.0) -> pd.DataFrame:
-    return (
-        df[df["resolution_time_hrs"] > threshold_hrs][
-            ["ticket_id", "category", "priority", "resolution_time_hrs", "description"]
-        ]
-        .sort_values("resolution_time_hrs", ascending=False)
-    )
