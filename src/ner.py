@@ -32,7 +32,10 @@ def extract_chunks(df: pd.DataFrame) -> list:
     
     return all_noun_chunks
 
-def aggregate_chunks_by_category(chunk_data: list, top_n: int = 10) -> dict:
+def aggregate_chunks_by_category(df: pd.DataFrame, top_n: int = 10) -> dict:
+    # Get chunk data 
+    chunk_data = extract_chunks(df)
+
     # Step 1: group raw chunks by category
     category_chunks = {}
     for entry in chunk_data:
@@ -47,16 +50,3 @@ def aggregate_chunks_by_category(chunk_data: list, top_n: int = 10) -> dict:
         for cat, chunks in category_chunks.items()
     }
         
-
-
-if __name__ == "__main__":
-    df = pd.read_csv(PROCESSED_DIR / "service_tickets.csv")
-    
-    chunk_data = extract_chunks(df.iloc[0:100])
-    print(chunk_data)
-    aggregated = aggregate_chunks_by_category(chunk_data, top_n=5)
-    print(aggregated)
-    for category, top_chunks in aggregated.items():
-        print(f"\n=== {category} ===")
-        for phrase, count in top_chunks:
-            print(f"  {phrase:30s}  {count}")
