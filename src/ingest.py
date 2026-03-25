@@ -10,18 +10,14 @@ PROCESSED_DIR = Path(__file__).parent.parent / "data" / "processed"
 
 def load_raw(file: str) -> pd.DataFrame:
     path = RAW_DIR / file
-    df = pd.read_csv(path, parse_dates=["Date of Purchase", "First Response Time"])
+    df = pd.read_csv(path)
     return df
 
-def clean(df: pd.DataFrame) -> pd.DataFrame:
-    to_drop = ["Customer Name", "Customer Email", "Customer Gender", "Customer Age"]
-    df.drop(columns=to_drop, inplace=True)
-    df['Time to Resolution'] = pd.to_datetime(df['Time to Resolution'], errors='coerce')
-    df['Ticket Turnover'] = (
-    (df['Time to Resolution'] - df['First Response Time'])
-    .dt.total_seconds() / 3600
-)
-    df.loc[df['Ticket Turnover'] < 0, 'Ticket Turnover'] = pd.NA
+def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
+    df['document_clean'] = df['Document'].fillna('')
+    df['char_length'] = df['document_clean'].str.len()
+    df['word_count'] = df['document_clean'].str.split().str.len()
+    df.drop(columns=['document_clean'], inplace=True)
     return df
 
 def save_processed(df: pd.DataFrame, filename: str):
@@ -30,8 +26,6 @@ def save_processed(df: pd.DataFrame, filename: str):
 
 
 if __name__ == "__main__":
-    df = load_raw("customer_support_tickets.csv")
-    df = clean(df)
-    save_processed(df, "tickets_cleaned.csv")
-    print(df.head())
-    print(df.columns)
+    df = load_raw("it_service_tickets.csv")
+    df = engineer_features(df)
+    save_processed(df, "service_tickets_cleaned.csv")
