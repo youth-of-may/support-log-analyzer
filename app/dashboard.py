@@ -6,22 +6,26 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent / "src"))
 
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from ner import aggregate_chunks_by_category
 from insights import (
-    volume_over_time,
-    category_breakdown,
-    avg_resolution_by_category,
-    priority_distribution,
-    flag_slow_tickets,
+    total_tickets,
+    unique_topics,
+    most_common_group,
+    average_document_length,
+    topic_distribution,
+    char_length_distribution,
+    word_length_distribution
 )
 
 st.set_page_config(page_title="Support Log Analyzer", layout="wide")
 st.title("Support Log Analyzer")
 st.caption("ML-powered pipeline for customer support ticket analysis")
 
-PROCESSED = Path(__file__).parent.parent / "data" / "processed" / "logs_clean.csv"
+PROCESSED = Path(__file__).parent.parent / "data" / "processed" / "tickets_cleaned.csv"
 
 
 @st.cache_data
