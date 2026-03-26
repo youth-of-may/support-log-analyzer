@@ -19,17 +19,17 @@ def get_nlp():
 
 
 def extract_chunks(df: pd.DataFrame) -> list:
-    all_noun_chunks = []  # fix: list, not dict
-    
-    docs = get_nlp().pipe(df['Document'])  # lazy generator over all texts
-    
-    for doc, (_, row) in zip(docs, df.iterrows()):  # zip to retain category
+    all_noun_chunks = []
+
+    docs = get_nlp().pipe(df['Document'])
+
+    for doc, row in zip(docs, df.itertuples(index=False)):
         chunks = [chunk.text.lower().strip() for chunk in doc.noun_chunks]
         all_noun_chunks.append({
-            'category': row['Topic_group'],  # now correctly paired
+            'category': row.Topic_group,  # attribute access, not dict key
             'chunks': chunks
         })
-    
+
     return all_noun_chunks
 
 def aggregate_chunks_by_category(df: pd.DataFrame, top_n: int = 10) -> dict:
@@ -49,4 +49,20 @@ def aggregate_chunks_by_category(df: pd.DataFrame, top_n: int = 10) -> dict:
         cat: Counter(chunks).most_common(top_n)
         for cat, chunks in category_chunks.items()
     }
-        
+def save_processed(df: pd.DataFrame, filename: str):
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    df.to_csv(PROCESSED_DIR / filename, index=False)
+
+if __name__ == "__main__":
+    df = pd.read_csv(PROCESSED_DIR / "service_tickets_cleaned.csv")
+    
+    aggregated = aggregate_chunks_by_category(df)
+    
+    rows = [
+        {"category": cat, "chunk": chunk, "count": count}
+        for cat, entries in aggregated.items()
+        for chunk, count in entries
+    ]
+    
+    result_df = pd.DataFrame(rows)
+    save_processed(result_df, "aggregated_chunks.csv")
