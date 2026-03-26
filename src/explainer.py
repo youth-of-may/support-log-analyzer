@@ -1,16 +1,14 @@
-# explainer.py
-from openai import OpenAI
-from openai import RateLimitError
+from openai import OpenAI, RateLimitError
 from dotenv import load_dotenv
+from pathlib import Path
 import os
 
-load_dotenv()
+load_dotenv(Path(__file__).parent.parent / ".env")
 
 client = OpenAI(
-    api_key=os.environ["GEMINI_API_KEY"],
-    base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+    api_key=os.environ.get("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1"
 )
-
 
 def explain_classification(ticket_text: str, predicted_label: str, top_chunks: list[tuple] = None) -> str:
     chunk_context = ""
@@ -20,7 +18,7 @@ def explain_classification(ticket_text: str, predicted_label: str, top_chunks: l
 
     try:
         response = client.chat.completions.create(
-            model="gemini-2.0-flash-lite",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": "You are a support ticket analyst. Be concise and specific."},
                 {"role": "user", "content": f"""A support ticket was classified into the category: "{predicted_label}".{chunk_context}

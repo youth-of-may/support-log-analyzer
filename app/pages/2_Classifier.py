@@ -223,7 +223,7 @@ if st.button("Predict", type="primary"):
     explanation = explain_classification(user_input, prediction)
     st.markdown(f"""
     <div class="explain-wrap">
-        <div class="explain-label">Explanation</div>
+        <div class="explain-label">GROQ EXPLAINS</div>
         {explanation}
     </div>
     """, unsafe_allow_html=True)
